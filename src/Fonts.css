@@ -1,0 +1,25 @@
+/*
+Put the font files in the following locations to work:
+src\assets\fonts
+public\assets\fonts
+*/
+
+@font-face {
+  font-family: 'Buding Ti';
+  src: local('Buding Ti'), url('/src/assets/fonts/DFBuDingW12-GB.ttc') format('truetype');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  src: local('Public Sans'), url('/src/assets/fonts/PublicSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Hao Buding Ti';
+  src: local('Hao Buding Ti'), url('/src/assets/fonts/zihun27hao-budingti.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans SC';
+  src: local('Noto Sans SC'), url('/src/assets/fonts/NotoSansSC-Bold.otf') format('opentype');
+}
