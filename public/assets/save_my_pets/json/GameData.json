@@ -1,0 +1,30 @@
+{
+    "config":{
+        "langVersion":"zh",
+        "character" : "0",
+        "pet" : "0",  
+        "monster": "0",    
+        "question_time": 10,  
+        "correct_point": 200, 
+        "incorrect_point": 100,  
+        "bgm" : "bgm.mp3",     
+        "win_music": "jingle_win.mp3",    
+        "lose_music": "jingle_lose.mp3",
+        "bkg": "0",       
+        "total_question": 6, 
+        "mainPageUrl" : "http://www.baidu.com"
+    },
+    "questions":[
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},    
+        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1}
+    ]
+}

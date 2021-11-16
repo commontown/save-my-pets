@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
 import Game  from './games/Game';
-import RoseGame from './games/RoseGame';
+import SaveMyPets from './games/SaveMyPets';
 
 function App() {
   const { search } = document.location;
   const games = {
-    ro:RoseGame,
+    ro:SaveMyPets,
   };
   const gid = search.replace(/^.*g=(.\w+).*$/,'$1');
-  const game = games[gid] || RoseGame;
+  const game = games[gid] || SaveMyPets;
   const comp = (game && <Game type={game}/>);
   return (
     <div className="App">
