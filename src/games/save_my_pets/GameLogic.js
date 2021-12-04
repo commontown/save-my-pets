@@ -28,6 +28,8 @@ export class GameLogic{
     dialogBubble;  //DialogBubble 答题泡泡
     chaGuide;   //Sprite 角色头上的提示
 
+    answerResText;  //Text 答对答错的提示
+
     resultPanel;    //Sprite 结果面板的底板
     resultTitle;    //Character 结果面板的标题图片
     //resultKey;      //Text[] 结果面板那3个标签，答对什么的
@@ -303,7 +305,7 @@ export class GameLogic{
         this.timeline.AddTimelineNode(this.GetPlayerJumpTimelineNode(toIndex, [
             new TimelineNode(null, (t, e)=>{
                 this.player.Play("stand");   
-                this.chaGuide.setVisible(true);
+                this.chaGuide.setVisible(this.questionIndex <= 0);
                 this.canControl = true;
                 return true;
             })
@@ -364,8 +366,9 @@ export class GameLogic{
     //获得计分板加分timeline
     ScoreBoardPlusScore = (addScore)=>{
         this.scorePlus.y = this.scorePlusY;
+        this.scorePlus.alpha = 1;
         this.currentScore += addScore;
-        this.scorePlus.setText("+" + addScore.toString());
+        this.scorePlus.setText((addScore >= 0 ? "+" : "") + addScore.toString());
         
         let inTime = 0.3;
         let speed = Phaser.Math.GetSpeed(this.scorePlusY - this.scoreValuePos.y, inTime);
@@ -499,6 +502,16 @@ export class GameLogic{
         ):(
             this.Wrong_MonsterMove()
         ));
+
+        this.answerCountDown.Reset();
+
+        //屏幕中间的正确错误提示，先关闭掉
+        // if (timeUp === false){
+        //     this.answerResText.setText(GetGameText(correct == true ? "answerRes_Correct" : "answerRes_Wrong"));
+        //     this.answerResText.setOrigin(0.5, 0.5);
+        //     this.answerResText.setVisible(true);
+        // }
+        
 
         if (correct ===true){
             this.cageHasDown += 1;   //笼子下降次数总是要+1
@@ -659,14 +672,14 @@ export class GameLogic{
         let wheelDegreePlus = 170;
         let bwa = this.bigWheel.angle;
         let swa = this.smallWheel.angle;
-        let swr = new TimelineNode(this.smallWheel, (target, timeElapsed)=>{
-            target.setAngle(swa + this.Ease_CageDown(timeElapsed / inTime) * wheelDegreePlus);
-            return timeElapsed >= inTime;
-        });
-        let bwr = new TimelineNode(this.bigWheel, (target, timeElapsed)=>{
-            target.setAngle(bwa - this.Ease_CageDown(timeElapsed / inTime) * wheelDegreePlus);
-            return timeElapsed >= inTime;
-        });
+        // let swr = new TimelineNode(this.smallWheel, (target, timeElapsed)=>{
+        //     target.setAngle(swa + this.Ease_CageDown(timeElapsed / inTime) * wheelDegreePlus);
+        //     return timeElapsed >= inTime;
+        // });
+        // let bwr = new TimelineNode(this.bigWheel, (target, timeElapsed)=>{
+        //     target.setAngle(bwa - this.Ease_CageDown(timeElapsed / inTime) * wheelDegreePlus);
+        //     return timeElapsed >= inTime;
+        // });
         //改成宠物原地跳2下说答对了
         let pt = this.GetPetJumpTimelineNode([this.GetPetJumpTimelineNode([
             this.ScoreBoardPlusScore(this.GetCurrentScore(true)), 
@@ -682,7 +695,7 @@ export class GameLogic{
                 return false;
             })
         ])]);
-        return [swr, bwr, pt];
+        return [pt]; //[swr, bwr, pt];
     }
 
     //回答错误，返回也得是TimelineNode[]
@@ -823,6 +836,8 @@ export class GameLogic{
         // this.resultValue[0].setText(this.currentCorrect.toString() + GetGameText("resultPoints", [this.currentCorrect > 1 ? "s" : ""]));
         // this.resultValue[1].setText(this.currentWrong.toString() + GetGameText("resultPoints", [this.currentWrong > 1 ? "s" : ""]));
         // this.resultValue[2].setText(this.GetTimeText(this.currentTime));
+        this.answerResText.setVisible(false);
+        this.answerCountDown.Reset();
         
         //Init game over
         this.resultText.setText(GetGameText("resultScore", [this.GetAnswerRightRateText()]));
@@ -1071,9 +1086,9 @@ export class GameLogic{
                 this.questions.push(new Question(gameQuestions[i % gameQuestions.length], gameConfig.question_time));
                 i += 1;
             }
-            this.questions.sort((q1,q2)=>{
-                return Math.random() < 0.5 ? -1 : 1;
-            })
+            // this.questions.sort((q1,q2)=>{
+            //     return Math.random() < 0.5 ? -1 : 1;
+            // })
         }else{
             let indexes = GetRandomIndexFromArray(gameQuestions.length, gameConfig.total_question);
             for (let i = 0; i < indexes.length; i++){
@@ -1089,7 +1104,7 @@ export class GameLogic{
             return;
         }
         if (this.questionIndex < this.questions.length && this.questionIndex >= 0){
-            console.log("Current Question ",  this.questions[this.questionIndex])
+            //console.log("Current Question ",  this.questions[this.questionIndex])
             this.currentQuestion = this.questions[this.questionIndex];
         }else{
             console.error("index out of range", this.questionIndex);
@@ -1115,6 +1130,7 @@ export class GameLogic{
 
         switch (this.gameState){
             case GameState.Questioning:{
+                this.answerResText.setVisible(false);
                 this.questionIndex += 1; //一开始是-1，所以第一题就变0了
                 this.SetCurrentQuestion();
                 //TODO this.currentQuestion = ...
@@ -1137,8 +1153,22 @@ export class GameLogic{
 
         //角色头上的提示框显示
         this.chaGuide.setVisible(
-            this.gameState ===GameState.WaitingAnswer
+            this.gameState === GameState.WaitingAnswer && this.questionIndex <= 0
         );
+
+        //不是开始画面的判断
+        let noStartMenu = !(this.gameState ===GameState.MainMenu ||
+            this.gameState === GameState.MainMenu_Help);
+
+        //底座mask
+        for (let i = 0; i < 4; i++){
+            this.answerSeats[i].HideMask(!noStartMenu);
+        }
+
+        //得分
+        this.scoreSeat.setVisible(noStartMenu);
+        this.scoreTitle.setVisible(noStartMenu);
+        this.scoreText.setVisible(noStartMenu);
 
         //游戏标题
         this.gameTitle.setVisible(

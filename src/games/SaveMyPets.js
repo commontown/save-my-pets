@@ -136,6 +136,7 @@ class SaveMyPetScene extends Phaser.Scene {
         this.load.image('smallWheel', imgPath + 'wheel_small.png');
         this.load.image('dialog', imgPath + 'dialog.png');
         this.load.image('answer', imgPath + 'answer_seat.png');
+        this.load.image('answer_mask', imgPath + 'answer_seat_mask.png');
         this.load.spritesheet('cage', imgPath + 'cage.png', { frameWidth: 136, frameHeight: 172 });
         this.load.spritesheet('cage_broken', imgPath + 'cage_broken.png', { frameWidth: 136, frameHeight: 172 });
         this.load.image('scoreBack', imgPath + 'score_seat.png');
@@ -420,6 +421,7 @@ class SaveMyPetScene extends Phaser.Scene {
         for (let i = 0; i < 4; i++){
             gameLogic.answerSeats[i] = new AnswerSeat(
                 this.add.image(gameLogic.firstAnswerSeatX + i * gameLogic.answerSeatXDis, gameLogic.answerSeatBottom, 'answer'), 
+                this.add.image(gameLogic.firstAnswerSeatX + i * gameLogic.answerSeatXDis, gameLogic.answerSeatBottom, 'answer_mask'),
                 this.add.text(130, 30, '', { font: "28px Arial Black", fill: "#0" }),
                 gameLogic.answerSeatY,
                 gameLogic.answerSeatBottom
@@ -436,6 +438,8 @@ class SaveMyPetScene extends Phaser.Scene {
 
         //UI最前
         gameLogic.uiMask = this.add.sprite(512, 384, 'uiMask').setScale(1024 / 69, 768 / 52);
+        gameLogic.answerResText = this.add.text(512, 384, GetGameText("answerRes_Correct"), {font: '120px Arial Black', fill:"#FF0204"});
+        gameLogic.answerResText.setVisible(false);
 
         //音乐音效开关
         gameLogic.musicButton = this.add.sprite(gameLogic.musicBtnPos.x, gameLogic.musicBtnPos.y, 'btn_music_on').setInteractive();
@@ -446,6 +450,10 @@ class SaveMyPetScene extends Phaser.Scene {
         });
         gameLogic.musicButton.on('pointerout', function (pointer) {
             this.clearTint();
+             document.body.style.cursor = "default";
+        });
+        gameLogic.musicButton.on('pointermove', function(p) {
+             document.body.style.cursor = "pointer";
         });
         gameLogic.musicButton.on('pointerup', function (pointer) {
             this.clearTint();
@@ -460,6 +468,10 @@ class SaveMyPetScene extends Phaser.Scene {
         });
         gameLogic.soundButton.on('pointerout', function (pointer) {
             this.clearTint();
+             document.body.style.cursor = "default";
+        });
+        gameLogic.soundButton.on('pointermove', function(p){
+             document.body.style.cursor = "pointer";
         });
         gameLogic.soundButton.on('pointerup', function (pointer) {
             this.clearTint();
@@ -479,6 +491,10 @@ class SaveMyPetScene extends Phaser.Scene {
         gameLogic.startButton.on('pointerout', function (pointer) {
             //this.clearTint();
             this.play('btn_start_up');
+             document.body.style.cursor = "default";
+        });
+        gameLogic.startButton.on('pointermove',  function(p){
+             document.body.style.cursor = "pointer";
         });
         gameLogic.startButton.on('pointerup', function (pointer) {
             //this.clearTint();
@@ -495,6 +511,10 @@ class SaveMyPetScene extends Phaser.Scene {
         gameLogic.ruleButton.on('pointerout', function (pointer) {
             //this.clearTint();
             this.play('btn_rule_up');
+             document.body.style.cursor = "default";
+        });
+        gameLogic.ruleButton.on('pointermove', function(p){
+             document.body.style.cursor = "pointer";
         });
         gameLogic.ruleButton.on('pointerup', function (pointer) {
             //this.clearTint();
@@ -533,6 +553,10 @@ class SaveMyPetScene extends Phaser.Scene {
         });
         gameLogic.replayButton.on('pointerout', function (pointer) {
             this.play('btn_replay_up');
+            document.body.style.cursor = "default";
+        });
+        gameLogic.replayButton.on('pointermove', function (pointer) {
+            document.body.style.cursor = "pointer";
         });
         gameLogic.replayButton.on('pointerup', function (pointer) {
             this.play('btn_replay_up');
@@ -547,6 +571,10 @@ class SaveMyPetScene extends Phaser.Scene {
         });
         gameLogic.quitButton.on('pointerout', function (pointer) {
             this.play('btn_quit_up');
+            document.body.style.cursor = "default";
+        });
+        gameLogic.quitButton.on('pointermove', function (pointer) {
+            document.body.style.cursor = "pointer";
         });
         gameLogic.quitButton.on('pointerup', function (pointer) {
             this.play('btn_quit_up');
@@ -582,6 +610,10 @@ class SaveMyPetScene extends Phaser.Scene {
         });
         gameLogic.tutorialButton.on('pointerout', function (pointer) {
             this.play('btn_help_close_up');
+            document.body.style.cursor = "default";
+        });
+        gameLogic.tutorialButton.on('pointermove', function (pointer) {
+            document.body.style.cursor = "pointer";
         });
         gameLogic.tutorialButton.on('pointerup', function (pointer) {
             this.play('btn_help_close_up');
@@ -616,6 +648,20 @@ class SaveMyPetScene extends Phaser.Scene {
 
         //宠物开始跳跳
         gameLogic.SetPetAlwaysJumpJump();
+
+        // this.scoreSeat.setVisible(false);
+        // this.scoreTitle.setVisible(false);
+        // this.scoreText.setVisible(false);
+        // this.scorePlus.setVisible(false);
+        gameLogic.ChangeState(GameState.MainMenu);
+    }
+
+    cursorSetToPointer(b){
+        if (b == true){
+            document.body.style.cursor = "pointer";
+        }else{
+            document.body.style.cursor = "default";
+        }
     }
 
     update (curTime, delta){

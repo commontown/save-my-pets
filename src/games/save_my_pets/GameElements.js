@@ -8,24 +8,31 @@ import{
 
 export class AnswerSeat{
     sprite;     //这张图片
+    mask;       //图片的mask，在start状态用的
     text;       //文字控件
     normalY;    //等待选择的时候的y
     bottomY;    //最底下的y
 
     textOffset = {
-        x : -3, y : 62 - 156
+        x : 1, y : 66 - 156
     }
 
-    constructor(spr, txt, normalY, bottomY){
+    constructor(spr, mask, txt, normalY, bottomY){
         this.sprite = spr;
         this.text = txt;
+        this.mask = mask;
         this.normalY = normalY;
         this.bottomY = bottomY;
         this.sprite.setOrigin(0.5, 1);
+        this.mask.setOrigin(0.5, 1);
         this.text.boundsAlignH = "middle";
         this.text.boundsAlignV = "center";
         this.text.wordWrapWidth = this.sprite.width * 0.7;
         this.text.wordWrap = true;
+    }
+
+    HideMask(b){
+        this.mask.setVisible(b);
     }
 
     Update(delta){
@@ -41,6 +48,8 @@ export class AnswerSeat{
     SynchroninzeTextAndSprite(){
         this.text.y = this.sprite.y + this.textOffset.y;
         this.text.x = this.sprite.x + this.textOffset.x;
+        this.mask.x = this.sprite.x;
+        this.mask.y = this.sprite.y;
     }
 
     SetText(txt){

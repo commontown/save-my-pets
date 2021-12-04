@@ -15,16 +15,11 @@
         "mainPageUrl" : "http://www.baidu.com"
     },
     "questions":[
+        {"question":"以下哪个是名词？", "answer":["森林", "报名", "跳跃", "赶紧"], "correct":0},
         {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1},    
-        {"question":"以下哪个是动词？", "answer":["鲜", "跑", "嫩", "快"], "correct":1}
+        {"question":"以下哪个是名词？", "answer":["一早", "长长", "勤奋", "邻居"], "correct":3},
+        {"question":"以下哪个是动词？", "answer":["小心", "美丽", "举行", "花纹"], "correct":2},
+        {"question":"以下哪个是名词？", "answer":["斑马", "找到", "果然", "最后"], "correct":0},
+        {"question":"以下哪个是形容词？", "answer":["跑", "青", "找", "笑"], "correct":1}
     ]
 }
