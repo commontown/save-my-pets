@@ -12,12 +12,20 @@
 5. Installations are done at this point. You may run `npm start` to begin playing the game.
 
 ## Sample Game Data
+###langVersion, string, use "zh" to display Chinese, "en" to display English.
+###character & pet & monster, int, don't change unless there is an alternative one.
+###question_time, int, change to adjust question time.
+###correct_point & incorrect_point, int, change to adjust scores when answer correctly or wrong.
+###bgm & win_music & lose_music, string, change to adjust musics.
+###bkg, int, this is background picture, don't change unless there is an alternative one.
+###total_question, don't change because the game process is designed with 6 questions, less or more will cause unpredictable problems.
+###mainPageUrl, string, when click back button, the page will open this link. We haven't test it under the real environment.
 {
     "config":{
         "langVersion":"zh", 
-        "character" : "0",
-        "pet" : "0",  
-        "monster": "0",    
+        "character" : 0,
+        "pet" : 0,  
+        "monster": 0,    
         "question_time": 10,  
         "correct_point": 200, 
         "incorrect_point": 100,  

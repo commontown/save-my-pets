@@ -429,8 +429,9 @@ class SaveMyPetScene extends Phaser.Scene {
         }
 
         
+        let tol = this.add.text(0, 0, '', {font : '100px Arial Black', fill:"#8cc8d0"})
         gameLogic.countDownText = this.add.text(0, 0, '', {font : '100px Arial Black', fill:"#FF0204"});
-        gameLogic.answerCountDown = new CountdownTimer(gameLogic.countDownText, ()=>{
+        gameLogic.answerCountDown = new CountdownTimer(gameLogic.countDownText, tol, ()=>{
             gameLogic.ChangeState(GameState.AnswerTimeUp);  
         },()=>{
             gameLogic.SelectTimeUp();

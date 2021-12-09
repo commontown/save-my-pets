@@ -1,9 +1,9 @@
 {
     "config":{
         "langVersion":"zh",
-        "character" : "0",
-        "pet" : "0",  
-        "monster": "0",    
+        "character" : 0,
+        "pet" : 0,  
+        "monster": 0,    
         "question_time": 10,  
         "correct_point": 200, 
         "incorrect_point": 100,  

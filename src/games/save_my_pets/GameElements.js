@@ -397,6 +397,7 @@ export class DialogBubble{
 
 export class CountdownTimer{
     text;   //他的sprite控件
+    textOutline;    //sprite控件的outline
     time;   //float 要显示的秒数。自动会减少，如果work的话
     working;    //bool 是否在工作中
 
@@ -406,15 +407,19 @@ export class CountdownTimer{
 
     defaultAnswerTime = 10; //10秒答题时间
 
-    constructor (txt, onZero, onHide){
+    constructor (txt, txtOL, onZero, onHide){
         this.text = txt;
+        this.textOutline = txtOL
         this.time = 9999;
         this.working = false;
         this.onZero = onZero;
         this.onHide = onHide;
         this.text.setOrigin(0.5, 0.5);
+        this.textOutline.setOrigin(0.5, 0.5);
         this.text.x = 512;
         this.text.y = 300;
+        this.textOutline.x = this.text.x + 3;
+        this.textOutline.y = this.text.y + 1;
     }
 
     //这时候答对了可以拿多少分数
@@ -428,11 +433,13 @@ export class CountdownTimer{
         this.working = true;
         this._zeroExecuted = false;
         this.text.setVisible(false);
+        this.textOutline.setVisible(false);
     }
 
     Hide(){
         this.working = false;
         this.text.setVisible(false);
+        this.textOutline.setVisible(false);
         if (this.onHide) this.onHide();
     }
 
@@ -455,10 +462,11 @@ export class CountdownTimer{
         }
 
         this.text.setText(txt);
-        
+        this.textOutline.setText(txt);
 
         if (this.time < 6){
             this.text.setVisible(true);
+            this.textOutline.setVisible(true);
             if (this.time <= 0 && this._zeroExecuted ===false){
                 this._zeroExecuted = true;
                 if (this.onZero) this.onZero();
