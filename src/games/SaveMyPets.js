@@ -99,13 +99,13 @@ class LoadingScene extends Phaser.Scene{
 
     preload(){
         portalRequestGameData(this, (scene, gameData)=>{
-            console.log("After game data", scene, gameData);
+            //console.log("After game data", scene, gameData);
             const jsonPath = `${PublicPath}/assets/save_my_pets/json/`;
             this.load.json('gameData', jsonPath + "GameData.json");
             this.gData = gameData;
-            console.log("game data preload", this.cache.json.get('gameData'), this.cache.json);
+            //console.log("game data preload", this.cache.json.get('gameData'), this.cache.json);
         })
-        console.log("preload done");
+        //console.log("preload done", this.gData, gameConfig, gameQuestions);
     }
 
     create(){
@@ -116,7 +116,7 @@ class LoadingScene extends Phaser.Scene{
             gameConfig = this.gData["config"];
             gameQuestions = this.gData["questions"];
         }
-        console.log("load done", gameConfig, gameQuestions);
+        //console.log("load done",this.gData, gameConfig, gameQuestions);
         game.scene.start('Game');
     }
 }

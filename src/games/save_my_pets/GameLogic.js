@@ -1080,6 +1080,7 @@ export class GameLogic{
     //获得本次游戏所有的题目
     GatherQuestions(){
         this.questions = [];
+        console.log("GameQuestions", gameQuestions);
         if (gameQuestions.length <= gameConfig.total_question){
             let i = 0;
             while (i < gameConfig.total_question){
