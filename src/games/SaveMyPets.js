@@ -144,6 +144,14 @@ class SaveMyPetScene extends Phaser.Scene {
     }
 
     preload() {
+        if (!gData){
+            console.error("gData is empty, can't run game");
+        }else{
+            gameConfig = gData["config"];
+            gameQuestions = gData["questions"];
+        }
+        console.log("Preload done", gameQuestions, gData, gameConfig);
+
         const imgPath = `${PublicPath}/assets/save_my_pets/images/${langVersion}/`; //"assets/images/" + langVersion + "/";
         const soundPath = `${PublicPath}/assets/save_my_pets/sounds/`; 
 
@@ -202,13 +210,6 @@ class SaveMyPetScene extends Phaser.Scene {
         this.load.audio('wrong', [soundPath + 'se_wrong.mp3']);
 
         
-        if (!gData){
-            console.error("gData is empty, can't run game");
-        }else{
-            gameConfig = gData["config"];
-            gameQuestions = gData["questions"];
-        }
-        console.log("Preload done", gameQuestions, gData, gameConfig);
     }
 
     create() {
