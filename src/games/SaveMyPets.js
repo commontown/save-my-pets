@@ -88,10 +88,11 @@ export default function SaveMyPets(elid) {
 }
 
 
+var gData;
 
 //因为gameData需要设定一些preload的内容，所以不得不加上一个scene专门来负责拿gameData
 class LoadingScene extends Phaser.Scene{
-    gData;
+    
 
     initialize() {
         Phaser.Scene.call(this, { key: 'Loading', active:true});
@@ -103,21 +104,37 @@ class LoadingScene extends Phaser.Scene{
             const jsonPath = `${PublicPath}/assets/save_my_pets/json/`;
             this.load.json('gameData', jsonPath + "GameData.json");
             this.gData = gameData;
-            //console.log("game data preload", this.cache.json.get('gameData'), this.cache.json);
+            console.log("game data preload", this.cache.json.get('gameData'), this.cache.json);
         })
-        //console.log("preload done", this.gData, gameConfig, gameQuestions);
+        // console.log("preload done", this.gData, gameConfig, gameQuestions);
     }
 
     create(){
-        if (!this.gData){
-            this.gData = this.cache.json.get('gameData');
-        }
-        if (this.gData){
-            gameConfig = this.gData["config"];
-            gameQuestions = this.gData["questions"];
-        }
-        //console.log("load done",this.gData, gameConfig, gameQuestions);
-        game.scene.start('Game');
+        // if (!gData){
+        //     gData = this.cache.json.get('gameData');
+        // }
+        // if (gData){
+        //     gameConfig = gData["config"];
+        //     gameQuestions = gData["questions"];
+        // }
+        // console.log("load create", gData);
+        // game.scene.start('Game');
+
+        const jsonPath = `${PublicPath}/assets/save_my_pets/json/`;
+        this.load.json('gameData', jsonPath + "GameData.json");
+        gData = this.cache.json.get('gameData');
+        console.log("1st step", gData);
+
+        portalRequestGameData(this, (scene, gameData)=>{
+            //console.log("After game data", scene, gameData);
+            // const jsonPath = `${PublicPath}/assets/save_my_pets/json/`;
+            // this.load.json('gameData', jsonPath + "GameData.json");
+            console.log("Portal requested", gameData);
+            if (gameData) gData = gameData;
+            console.log("game data preload", gData, gameData==gData);
+            game.scene.start('Game');
+        })
+
     }
 }
 
@@ -183,9 +200,19 @@ class SaveMyPetScene extends Phaser.Scene {
         this.load.audio('jump', [soundPath + 'se_jump.mp3']);
         this.load.audio('monsterComing', [soundPath + 'se_monster_coming.mp3']);
         this.load.audio('wrong', [soundPath + 'se_wrong.mp3']);
+
+        
+        if (!gData){
+            console.error("gData is empty, can't run game");
+        }else{
+            gameConfig = gData["config"];
+            gameQuestions = gData["questions"];
+        }
+        console.log("Preload done", gameQuestions, gData, gameConfig);
     }
 
     create() {
+        console.log("Game Really Start", gameQuestions);
         gameLogic = new GameLogic(this, appInfo);
         gameLogic.gameState = GameState.MainMenu;
         gameLogic.GatherQuestions();
