@@ -104,9 +104,9 @@ class LoadingScene extends Phaser.Scene{
             const jsonPath = `${PublicPath}/assets/save_my_pets/json/`;
             this.load.json('gameData', jsonPath + "GameData.json");
             this.gData = gameData;
-            console.log("game data preload", this.cache.json.get('gameData'), this.cache.json);
+            //console.log("game data preload", this.cache.json.get('gameData'), this.cache.json);
         })
-        // console.log("preload done", this.gData, gameConfig, gameQuestions);
+        // //console.log("preload done", this.gData, gameConfig, gameQuestions);
     }
 
     create(){
@@ -117,21 +117,21 @@ class LoadingScene extends Phaser.Scene{
         //     gameConfig = gData["config"];
         //     gameQuestions = gData["questions"];
         // }
-        // console.log("load create", gData);
+        // //console.log("load create", gData);
         // game.scene.start('Game');
 
         const jsonPath = `${PublicPath}/assets/save_my_pets/json/`;
         this.load.json('gameData', jsonPath + "GameData.json");
         gData = this.cache.json.get('gameData');
-        console.log("1st step", gData);
+        //console.log("1st step", gData);
 
         portalRequestGameData(this, (scene, gameData)=>{
             //console.log("After game data", scene, gameData);
             // const jsonPath = `${PublicPath}/assets/save_my_pets/json/`;
             // this.load.json('gameData', jsonPath + "GameData.json");
-            console.log("Portal requested", gameData);
+            //console.log("Portal requested", gameData);
             if (gameData) gData = gameData;
-            console.log("game data preload", gData, gameData==gData);
+            //console.log("game data preload", gData, gameData==gData);
             game.scene.start('Game');
         })
 
@@ -149,11 +149,13 @@ class SaveMyPetScene extends Phaser.Scene {
         }else{
             gameConfig = gData["config"];
             gameQuestions = gData["questions"];
+            langVersion = gameConfig["langVersion"];
         }
-        console.log("Preload done", gameQuestions, gData, gameConfig);
+        //console.log("Preload done", gameQuestions, gData, gameConfig);
 
-        const imgPath = `${PublicPath}/assets/save_my_pets/images/${langVersion}/`; //"assets/images/" + langVersion + "/";
+        const imgPath = `${PublicPath}/assets/save_my_pets/images/${langVersion}/`; 
         const soundPath = `${PublicPath}/assets/save_my_pets/sounds/`; 
+        //console.log("File path", langVersion, imgPath);
 
         this.load.image('bkg', imgPath + 'bkg' + gameConfig.bkg + '.jpg');
         this.load.image('rope', imgPath + 'line.png');
@@ -213,7 +215,7 @@ class SaveMyPetScene extends Phaser.Scene {
     }
 
     create() {
-        console.log("Game Really Start", gameQuestions);
+        //console.log("Game Really Start", gameQuestions);
         gameLogic = new GameLogic(this, appInfo);
         gameLogic.gameState = GameState.MainMenu;
         gameLogic.GatherQuestions();
@@ -673,7 +675,7 @@ class SaveMyPetScene extends Phaser.Scene {
 
         // let aa = this.add.text(100, 100, "fuck me", { font: "28px Arial Black", fill: "#0" });
         // aa.setText("Fuck you too");
-        // console.log(aa.text)
+        // //console.log(aa.text)
 
         //宠物开始跳跳
         gameLogic.SetPetAlwaysJumpJump();
@@ -708,7 +710,7 @@ class SaveMyPetScene extends Phaser.Scene {
                 if (goConfirm) gameLogic.OnPlayButtonClicked();
                 // if (goUp){
                 //     let pId = Math.random() < 0.5 ? 0 : 1;
-                //     console.log(pId);
+                //     //console.log(pId);
                 //     pet.ChangeToPet(pId);
                 // }
             }break;
